@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "threedsecurecallbackapi-2-2-0 Postman Collection",
+    "description": "Operational baseline generated from observed Kong Konnect configuration.\n\nOpenAPI version: 3.0.3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://acs-callbacks.svc.prod.aldermoor.example/3ds2",
+      "type": "string",
+      "description": "Override with the base URL of the deployed Kong gateway."
+    }
+  ],
+  "item": [
+    {
+      "name": "threedsecurecallbackapi-2-2-0--postauthentication-results",
+      "request": {
+        "method": "POST",
+        "description": "threedsecurecallbackapi-2-2-0--postauthentication-results\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/cards/3ds/2.2.0/authentication-results",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "cards",
+            "3ds",
+            "2.2.0",
+            "authentication-results"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "threedsecurecallbackapi-2-2-0--postchallenge-results",
+      "request": {
+        "method": "POST",
+        "description": "threedsecurecallbackapi-2-2-0--postchallenge-results\n\nResponses:\n- default: Runtime response semantics are not observable from Kong configuration.",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/cards/3ds/2.2.0/challenge-results",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "cards",
+            "3ds",
+            "2.2.0",
+            "challenge-results"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
