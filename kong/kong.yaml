@@ -1,0 +1,271 @@
+_format_version: "3.0"
+_transform: true
+
+########################################################
+# SERVICES
+########################################################
+
+services:
+  - name: threedsecurecallbackapi-2-2-0
+    host: acs-callbacks.svc.prod.aldermoor.example
+    port: 443
+    protocol: https
+    path: /3ds2
+    retries: 5
+    connect_timeout: 60000
+    write_timeout: 60000
+    read_timeout: 60000
+    enabled: true
+    tags:
+      - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+      - migrated-by:forgeshift-wso2-migrator
+      - 3ds
+      - cards
+      - callbacks
+      - mtls
+    routes:
+      - name: threedsecurecallbackapi-2-2-0--postauthentication-results
+        protocols:
+          - https
+        methods:
+          - POST
+        paths:
+          - /cards/3ds/2.2.0/authentication-results
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+          - migrated-by:forgeshift-wso2-migrator
+          - 3ds
+          - cards
+          - callbacks
+          - mtls
+          - wso2-resource:_authentication-results
+          - wso2-verb:POST
+      - name: threedsecurecallbackapi-2-2-0--postchallenge-results
+        protocols:
+          - https
+        methods:
+          - POST
+        paths:
+          - /cards/3ds/2.2.0/challenge-results
+        strip_path: false
+        preserve_host: false
+        https_redirect_status_code: 426
+        regex_priority: 0
+        path_handling: v0
+        request_buffering: true
+        response_buffering: true
+        tags:
+          - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+          - migrated-by:forgeshift-wso2-migrator
+          - 3ds
+          - cards
+          - callbacks
+          - mtls
+          - wso2-resource:_challenge-results
+          - wso2-verb:POST
+
+########################################################
+# PLUGINS
+########################################################
+
+plugins:
+  - name: request-transformer
+    route: threedsecurecallbackapi-2-2-0--postchallenge-results
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /3ds2/challenge-results
+    tags:
+      - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+      - migrated-by:forgeshift-wso2-migrator
+      - 3ds
+      - cards
+      - callbacks
+      - mtls
+  - name: request-termination
+    route: threedsecurecallbackapi-2-2-0--postauthentication-results
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      body: null
+      content_type: null
+      echo: false
+      message: Client certificate (mutual TLS) authentication for this API is not set up in Kong yet
+      status_code: 401
+      trigger: null
+    tags:
+      - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+      - migrated-by:forgeshift-wso2-migrator
+      - 3ds
+      - cards
+      - callbacks
+      - mtls
+      - wso2-auth-not-migrated
+  - name: pre-function
+    service: threedsecurecallbackapi-2-2-0
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      access:
+        - "-- Apigee path rewrite (apigee-kong-migrator)\nlocal route        = kong.router.get_route()\nlocal service      = kong.router.get_service()\nlocal service_path = (service and service.path) or \"/\"\n-- Check for apigee-strip-len tag set on suffix routes during migration\nlocal strip_len = nil\nif route and route.tags then\n  for _, tag in ipairs(route.tags) do\n    if tag:sub(1, 17) == \"apigee-strip-len:\" then\n      strip_len = tonumber(tag:sub(18))\n      break\n    end\n  end\nend\n-- Fall back to route path length if no tag (covers normal routes)\nif not strip_len then\n  local route_path = (route and route.paths and route.paths[1]) or \"/\"\n  if route_path:sub(1, 1) == \"~\" then route_path = route_path:sub(2) end\n  strip_len = #route_path\nend\nlocal incoming = kong.request.get_path()\nlocal suffix = \"/\"\nif #incoming >= strip_len then\n  suffix = incoming:sub(strip_len + 1)\nend\nif suffix == \"\" then suffix = \"/\" end\nlocal clean_target = service_path:gsub(\"/+$\", \"\")\nif suffix:sub(1, 1) ~= \"/\" then suffix = \"/\" .. suffix end\nkong.service.request.set_path(clean_target .. suffix)\n"
+      body_filter:
+        []
+      certificate:
+        []
+      functions:
+        []
+      header_filter:
+        []
+      log:
+        []
+      rewrite:
+        []
+      ws_client_frame:
+        []
+      ws_close:
+        []
+      ws_handshake:
+        []
+      ws_upstream_frame:
+        []
+    tags:
+      - global
+      - apigee-path-rewrite
+  - name: request-transformer
+    route: threedsecurecallbackapi-2-2-0--postauthentication-results
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      add:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      append:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      http_method: null
+      remove:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      rename:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+      replace:
+        body:
+          []
+        headers:
+          []
+        querystring:
+          []
+        uri: /3ds2/authentication-results
+    tags:
+      - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+      - migrated-by:forgeshift-wso2-migrator
+      - 3ds
+      - cards
+      - callbacks
+      - mtls
+  - name: request-termination
+    route: threedsecurecallbackapi-2-2-0--postchallenge-results
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    config:
+      body: null
+      content_type: null
+      echo: false
+      message: Client certificate (mutual TLS) authentication for this API is not set up in Kong yet
+      status_code: 401
+      trigger: null
+    tags:
+      - wso2-source-id:f1139088-f219-4a94-9f8e-8c81323add5f
+      - migrated-by:forgeshift-wso2-migrator
+      - 3ds
+      - cards
+      - callbacks
+      - mtls
+      - wso2-auth-not-migrated
+
+########################################################
+# UPSTREAMS + TARGETS
+########################################################
+
+upstreams:
+  []

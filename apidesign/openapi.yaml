@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: threedsecurecallbackapi-2-2-0
+  version: 1.0.0
+  description: Operational baseline generated from observed Kong Konnect configuration.
+servers:
+- url: https://acs-callbacks.svc.prod.aldermoor.example/3ds2
+paths:
+  /cards/3ds/2.2.0/authentication-results:
+    post:
+      operationId: postCards3ds220AuthenticationResults_fcb609f4
+      summary: threedsecurecallbackapi-2-2-0--postauthentication-results
+      description: Inferred from Kong routing. Request and response business schemas are not observable.
+      x-kong-route-ids:
+      - 571f2ab3-18f6-48ae-b720-ac2750a29a76
+      x-kong-plugin-summary:
+      - request-termination
+      - request-transformer
+      responses:
+        default:
+          description: Runtime response semantics are not observable from Kong configuration.
+  /cards/3ds/2.2.0/challenge-results:
+    post:
+      operationId: postCards3ds220ChallengeResults_b934e708
+      summary: threedsecurecallbackapi-2-2-0--postchallenge-results
+      description: Inferred from Kong routing. Request and response business schemas are not observable.
+      x-kong-route-ids:
+      - c68dc860-8b79-4883-8c56-287513e4e2e6
+      x-kong-plugin-summary:
+      - request-termination
+      - request-transformer
+      responses:
+        default:
+          description: Runtime response semantics are not observable from Kong configuration.
+x-kong-source:
+  serviceId: 5432cd8f-31e8-4446-97e1-95e2fe81f140
+  snapshotFingerprint: 07cea5136085320a7d1a760a482942009d20bec1206588859bbf39aee15301c0
+  controlPlaneId: edb363b5-777a-445c-a190-5ca0d53c0c12
+x-kong-unmapped-routes: []
